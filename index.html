@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lorentz Transform</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <header class="header">
+            <h1>Lorentz Transforms Visualized</h1>
+        </header>
+
+        <section class="graphs" style="width: 850px; height: 400px;">
+            <div id="unprimed" style="width: 400px; height: 400px;"></div>
+            <div id="primed" style="width: 400px; height: 400px;"></div>
+        </section>
+
+        <div class="slidecontainer">
+            <p id="velocityDisplay"></p>
+
+            <input
+                type="range" min="-0.99" max="0.99" value="0"
+                class="slider" step="0.01" id="velocity"
+            >
+        </div>
+
+        <main>
+            <input class="new-todo" placeholder="What needs to be done?" autofocus>
+
+            <ul class="todo-list">
+            </ul>
+        </main>
+
+        <script src="https://www.desmos.com/api/v1.1/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+        <script src="index.js"></script>
+    </body>
+</html>
