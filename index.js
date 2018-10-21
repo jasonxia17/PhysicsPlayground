@@ -1,10 +1,14 @@
 //////////////////// Lorentz Transform ///////////////////////
-function lorentzTransform(unprimedEvent, beta) {
-    const gamma = (1 - beta**2) ** (-0.5);
+
+function lorentzTransformPoint(unprimedEvent, beta) {
     const primedEvent = {};
-    primedEvent.x = gamma * (unprimedEvent.x - beta * unprimedEvent.ct);
-    primedEvent.ct = gamma * (unprimedEvent.ct - beta * unprimedEvent.x);
+    primedEvent.x = "\\gamma (" + unprimedEvent.x + "- \\beta \\cdot" + unprimedEvent.ct + ")";
+    primedEvent.ct = "\\gamma (" + unprimedEvent.ct + "- \\beta \\cdot" + unprimedEvent.x + ")";
     return primedEvent;
+}
+
+function lorentzTransformLine(unprimedLine, beta) {
+  return unprimedLine.map(point => lorentzTransformPoint(point, beta));
 }
 
 //////////////////// Initialize Graphs ////////////////////////
@@ -26,82 +30,67 @@ const primedGraph = Desmos.GraphingCalculator(document.getElementById('primed'),
 });
 
 primedGraph.updateSettings({ xAxisLabel: 'x\'', yAxisLabel: 'ct\''});
+primedGraph.setExpression({id: "velocity", latex: "\\beta = 0"});
+primedGraph.setExpression({latex: "\\gamma = \\frac{1}{\\sqrt{1-\\beta^2}}"});
 
-/////////////////////// Set up velocity slider ////////////////////////
+/////////////////////// Set up velocity slider functionality ////////////////////////
 
 const slider = document.getElementById("velocity");
-const velocityDisplay = document.getElementById("velocityDisplay");
+const velocityNum = document.getElementById("velocityNum");
 
-velocityDisplay.innerHTML = "Relative Velocity of Primed Frame: " + slider.value + "c";
+velocityNum.innerHTML = slider.value;
 slider.oninput = function() {
     const velocity = slider.value;
-    velocityDisplay.innerHTML = "Relative Velocity of Primed Frame: " + velocity + "c";
-    const transformedPoint = lorentzTransform(testPoint, velocity);
-
-    primedGraph.removeExpressions(primedGraph.getExpressions());
-    primedGraph.setExpression({latex: pointString(transformedPoint), color: Desmos.Colors.BLUE});
+    velocityNum.innerHTML = velocity;
+    primedGraph.setExpression({id: "velocity", latex: "\\beta = " + velocity});
 }
 
-////////////////////////
+///////////////////  DRAWING //////////////////////////
 
 function pointString (point) {
     return '(' + point.x + ', ' + point.ct + ')';
 }
 
-testPoint = {x: 3, ct: 5};
-unprimedGraph.setExpression({latex: pointString(testPoint)});
-
-////////////////////////
-
-const inputField = document.querySelector('input');
-const todos = [];
-let count = 0;
-
-const defaultTemplate = `
-  <li data-id="{{id}}" class="{{completed}}">
-    <div class="todo-item">
-      <input class="toggle" type="checkbox">
-      <label>{{title}}</label>
-      <button class="destroy">Remove</button>
-    </div>
-  </li>
-`;
-
-function toggleDone(evt) {
-  console.log(evt);
-}
-
-function updateList() {
-  let html = '';
-  todos.forEach(t => {
-    let template = defaultTemplate;
-    const c = t.completed ? 'complete' : 'not-complete';
-    template = template.replace('{{id}}', t.id);
-    template = template.replace('{{completed}}', c);
-    template = template.replace('{{title}}', t.title);
-    html += template;
+function drawLine(graph, line, setColor) {
+  let point1 = line[0];
+  let point2 = line[1];
+  graph.setExpression({
+    type: 'table',
+    columns: [
+      {
+        latex: 'x',
+        values: [point1.x, point2.x]
+      },
+      {
+        latex: 'y',
+        values: [point1.ct, point2.ct],
+        color: setColor,
+        lines: true
+      },
+    ]
   });
-
-  document.querySelector('.todo-list').innerHTML = html;
 }
 
-function handleNewSubmission(evt) {
-  const { value } = inputField
-  inputField.value = '';
+////////////////// Event Inputting //////////////////////////////////
 
-  if (value === '') return;
-  todos.push({
-    id: count,
-    completed: false,
-    title: value,
-  });
-
-  count += 1;
-  updateList();
+const inputFields = {
+  ct1: document.getElementById('ct1'),
+  x1: document.getElementById('x1'),
+  ct2: document.getElementById('ct2'),
+  x2: document.getElementById('x2'),
+  setColor: document.getElementById('colorChoice'),
 }
 
-inputField.addEventListener("keyup", evt => {
-  if (evt.keyCode === 13) {
-    handleNewSubmission(evt);
-  }
+document.getElementById('submitButton').addEventListener('click', function(){
+  const inputValues = {}
+  Object.keys(inputFields).forEach(e => inputValues[e] = inputFields[e].value);
+  Object.keys(inputFields).forEach(e => inputFields[e].value = "");
+
+  worldline = [
+    {x: inputValues.x1, ct: inputValues.ct1},
+    {x: inputValues.x2, ct: inputValues.ct2}
+  ]
+
+  drawLine(unprimedGraph, worldline, inputValues.setColor);
+  drawLine(primedGraph, lorentzTransformLine(worldline), inputValues.setColor);
 });

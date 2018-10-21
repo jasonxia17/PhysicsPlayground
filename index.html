@@ -1,34 +1,55 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Lorentz Transform</title>
+        <title>Physics Playground: Lorentz Transform</title>
         <link rel="stylesheet" href="styles.css">
+        <link rel="shortcut icon" href="thumbnail.png" type="image/x-icon" />
     </head>
     <body>
         <header class="header">
             <h1>Lorentz Transforms Visualized</h1>
         </header>
 
-        <section class="graphs" style="width: 850px; height: 400px;">
-            <div id="unprimed" style="width: 400px; height: 400px;"></div>
-            <div id="primed" style="width: 400px; height: 400px;"></div>
+        <section class="graphs">
+            <div id="unprimed"></div>
+            <div id="primed"></div>
         </section>
 
         <div class="slidecontainer">
-            <p id="velocityDisplay"></p>
+            <p id="velocityDisplay">
+                Relative Velocity of Primed Frame: 
+                <span id="velocityNum"></span>
+                c
+            </p>
 
             <input
                 type="range" min="-0.99" max="0.99" value="0"
-                class="slider" step="0.01" id="velocity"
+                class="slider" step="0.01" id="velocity" autofocus
             >
         </div>
 
-        <main>
-            <input class="new-todo" placeholder="What needs to be done?" autofocus>
-
-            <ul class="todo-list">
-            </ul>
-        </main>
+        <div class="eventInputArea">
+            <div id="startingPoint">
+                Starting Point:
+                <br><br>
+                <input id="ct1" class="inputBox" placeholder="ct">
+                <input id="x1" class="inputBox" placeholder="x">
+            </div>
+            <div id="endingPoint">
+                Ending Point:
+                <br><br>
+                <input id="ct2" class="inputBox" placeholder="ct">
+                <input id="x2" class="inputBox" placeholder="x">
+            </div>
+            <div id="colorSelection">
+                Choose a Color:
+                <br><br>
+                <input class="inputBox" id="colorChoice">
+            </div>
+            <div id="submitButton">
+                <button id="submit">Add a Worldline!</button>
+            </div>
+        </div>
 
         <script src="https://www.desmos.com/api/v1.1/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
         <script src="index.js"></script>
