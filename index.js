@@ -86,6 +86,10 @@ document.getElementById('submitButton').addEventListener('click', function(){
   Object.keys(inputFields).forEach(e => inputValues[e] = inputFields[e].value);
   Object.keys(inputFields).forEach(e => inputFields[e].value = "");
 
+  if (inputValues.setColor === "") {
+    inputValues.setColor = "black";
+  }
+
   worldline = [
     {x: inputValues.x1, ct: inputValues.ct1},
     {x: inputValues.x2, ct: inputValues.ct2}
