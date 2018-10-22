@@ -1,8 +1,10 @@
 # PhysicsPlayground
-A tool to experiment with physics and build intuition
+This is a tool to experiment with physics and build intuition.
 
-## Current Developments:
+## Finished:
 
-Lorentz Transformation Visualizer
+[Lorentz Transformation Visualizer](https://jasonxia17.github.io/PhysicsPlayground/)
+
+## In Progress:
 
 Visualization for Electric Field and Potential
