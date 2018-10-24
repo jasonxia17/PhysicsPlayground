@@ -76,6 +76,7 @@ function drawLine(graph, line, setColor) {
 const inputFields = {
   ct1: document.getElementById('ct1'),
   x1: document.getElementById('x1'),
+  setSpeed: document.getElementById('speedInput'),
   ct2: document.getElementById('ct2'),
   x2: document.getElementById('x2'),
   setColor: document.getElementById('colorChoice'),
@@ -83,11 +84,22 @@ const inputFields = {
 
 document.getElementById('submitButton').addEventListener('click', function(){
   const inputValues = {}
-  Object.keys(inputFields).forEach(e => inputValues[e] = inputFields[e].value);
+
+  Object.keys(inputFields).forEach(e => {
+    if (e === 'setColor') inputValues[e] = inputFields[e].value;
+    else inputValues[e] = parseFloat(inputFields[e].value);
+  });
+
   Object.keys(inputFields).forEach(e => inputFields[e].value = "");
 
   if (inputValues.setColor === "") {
     inputValues.setColor = "black";
+  }
+
+  if (!isNaN(inputValues.setSpeed)) {
+    const bigNum = 10 ** 15;
+    inputValues.ct2 = parseFloat(inputValues.ct1) + bigNum;
+    inputValues.x2 = parseFloat(inputValues.x1) + parseFloat(inputValues.setSpeed) * bigNum;
   }
 
   worldline = [

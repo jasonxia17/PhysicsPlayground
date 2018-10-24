@@ -103,6 +103,10 @@ h1 {
   float: left;
 }
 
+#speed {
+  width: 15%;
+}
+
 #submitButton {
   flex-grow: 1;
 }
