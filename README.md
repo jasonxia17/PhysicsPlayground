@@ -1,4 +1,4 @@
-# Physics Playground
+# PhysicsPlayground
 This is a tool to experiment with physics and build intuition.
 
 ## Finished:
