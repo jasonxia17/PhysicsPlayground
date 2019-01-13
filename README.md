@@ -1,7 +1,9 @@
 # PhysicsPlayground
-This is a tool to experiment with physics and build intuition.
+This is a collection of tools for experimenting with physics and building intuition.
 
-## [Lorentz Transformation Visualizer](https://jasonxia17.github.io/PhysicsPlayground/LorentzTransform/)
+## Lorentz Transformation Visualizer
+
+[Click here to use the tool!](https://jasonxia17.github.io/PhysicsPlayground/LorentzTransform/)
 
 My favorite demonstration of this tool involves the relativistic Doppler effect. The red person starts at **(0, 0)** and moves with a velocity of **0**. The blue person starts at **(0, 0)** and moves with a velocity of **0.6c**. The red person emits a pulse of light every second, so light pulses start at **(ct, x) = (n, 0)**, where **n** is a positive integer, and they move with a velocity of **1c**.
 

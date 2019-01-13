@@ -86,8 +86,12 @@ document.getElementById('submitButton').addEventListener('click', function(){
   const inputValues = {}
 
   Object.keys(inputFields).forEach(e => {
-    if (e === 'setColor') inputValues[e] = inputFields[e].value;
-    else inputValues[e] = parseFloat(inputFields[e].value);
+    let val = inputFields[e].value;
+    if (!isNaN(val) && val !== "") {
+      // val is non-empty string containing a number
+      val = parseFloat(val);
+    }
+    inputValues[e] = val;
   });
 
   Object.keys(inputFields).forEach(e => inputFields[e].value = "");
@@ -96,10 +100,10 @@ document.getElementById('submitButton').addEventListener('click', function(){
     inputValues.setColor = "black";
   }
 
-  if (!isNaN(inputValues.setSpeed)) {
+  if (inputValues.setSpeed !== "") {
     const bigNum = 10 ** 15;
-    inputValues.ct2 = parseFloat(inputValues.ct1) + bigNum;
-    inputValues.x2 = parseFloat(inputValues.x1) + parseFloat(inputValues.setSpeed) * bigNum;
+    inputValues.ct2 = inputValues.ct1 + bigNum;
+    inputValues.x2 = inputValues.x1 + inputValues.setSpeed * bigNum;
   }
 
   worldline = [
